@@ -1,31 +1,21 @@
-# RepositorioTemplate
-Esse repositório é para ser utilizado pelos grupos como um template inicial, da home page do Projeto.
-As seções do Template NÃO DEVEM SER OMITIDAS, sendo TODAS RELEVANTES.
-
-**!! *Atenção: Renomeie o seu repositório para (Ano.Semestre)_(Grupo)_(Paradigma)_(NomeDoProjeto)*. !!** 
-
-Paradigmas:
- - Funcional
- - Logico
- - SMA
-
-**!! *Não coloque os nomes dos alunos no título do repositório*. !!**
-
-**!! *Exemplo de título correto: 2023.2_G1_Logico_ProjetoRoteirosAereos*. !!**
- 
- (Apague esses comentários)
-
-# NomeDoProjeto
+# Akinator de Pokémon
 
 **Disciplina**: FGA0210 - PARADIGMAS DE PROGRAMAÇÃO - T01 <br>
-**Nro do Grupo (de acordo com a Planilha de Divisão dos Grupos)**: XX<br>
-**Paradigma**: XXXXXXXXXX<br>
+**Nro do Grupo**: 03<br>
+**Paradigma**: Lógico<br>
 
 ## Alunos
-|Matrícula | Aluno |
-| -- | -- |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
+
+| Matrícula  | Aluno                             |
+| ---------- | --------------------------------- |
+| 19/0010606 | Artur de Sousa Vieira             |
+| 19/0024950 | Arthur de Melo Garcia             |
+| 19/0011424 | Carlos Eduardo Miranda Roriz      |
+| 17/0032591 | Edvan Barreira Gomes Júnior       |
+| 19/0109963 | João Victor Teixeira Batista      |
+| 19/0112123 | Lucas Gabriel Sousa Camargo Paiva |
+| 20/0023411 | Luíza Esteves dos Santos          |
+| 16/0141842 | Philipe Rosa Serafim              |
 
 ## Sobre 
 Descreva o seu projeto em linhas gerais. 
