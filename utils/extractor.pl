@@ -2,18 +2,9 @@
 :- use_module(library(http/http_client)).
 :- use_module(library(http/json)).
 
-remove_char(Input, Target, Output) :-
-    atom_codes(Input, CodeList),
-    exclude(=(Target), CodeList, ResultList),
-    atom_codes(Output, ResultList).
-
 url_concat(Url, Position, URL) :-
     atom_number(Num, Position),
     atom_concat(Url, Num, URL).
-
-string_atom(String, Atom) :-
-    string_codes(String, ListCodes),
-    atom_codes(Atom, ListCodes).
 
 request_http(URL, JSONResponse) :-
     http_open(URL, InStream, []),
@@ -57,4 +48,23 @@ json_object(Position, Object) :-
 
 imprime_pokemon(Position) :-
     json_object(Position, Pokemon),
-    json_write(current_output, Pokemon, [width(0)]).
+    json_write(current_output, Pokemon, [width(1)]).
+
+get_n_pokemons(1, Stream):-
+    json_object(1, Pokemon),
+    json_write_dict(Stream, Pokemon).
+
+get_n_pokemons(N, Stream):-
+    N >= 1,
+    json_object(N, Pokemon),
+    json_write_dict(Stream, Pokemon),
+    writeln(Stream, ','),
+    N1 is N - 1,
+    get_n_pokemons(N1, Stream).
+
+json_to_file(File, N) :-
+    open(File, write, Stream),
+    write(Stream, '['),
+    get_n_pokemons(N, Stream),
+    write(Stream, ']'),
+    close(Stream).
