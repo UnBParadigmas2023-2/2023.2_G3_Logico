@@ -1,4 +1,3 @@
-:- use_module(library(json)).
 :- use_module(library(http/json)).
 
 % Defina os operadores dinâmicos para os fatos dinâmicos
@@ -34,10 +33,7 @@ inserir_pokemon(Pokemon) :-
     assertz(taxa_crescimento(Nome, TaxaCrescimento)),
     assertz(habitat(Nome, Habitat)),
     processar_tipos(Nome, Pokemon.types),
-    processar_stats(Nome, Pokemon.stats),
-    
-    % Chama recursivamente para processar o restante
-    inserir_pokemons(Resto).
+    processar_stats(Nome, Pokemon.stats).
 
 processar_evolucoes(_, []).
 processar_evolucoes(PokemonNome, [Evolucao | Resto]) :-
@@ -54,15 +50,30 @@ processar_stats(PokemonNome, [Stat | Resto]) :-
     assertz(estatistica(PokemonNome, Stat.base_stat, Stat.stat.name)),
     processar_stats(PokemonNome, Resto).
 
+
 main :-
+    retractall(pokemon(_, _, _, _, _, _)),          % Limpa todos os fatos dinâmicos
+    retractall(evolucao(_, _, _)),
+    retractall(taxa_crescimento(_, _)),
+    retractall(habitat(_, _)),
+    retractall(tipo(_, _)),
+    retractall(estatistica(_, _, _)),
     ler_e_inserir_pokemons('pokemons.json'),
     listar_pokemons.
 
 listar_pokemons :-
-    pokemon(Nome, ID, Cor, Altura, Peso, IsLendario),
-    evolucao(Nome, Evolucao, _),
-    taxa_crescimento(Nome, TaxaCrescimento),
-    habitat(Nome, Habitat),
+    findall([Nome, ID, Cor, Altura, Peso, IsLendario, Evolucao, TaxaCrescimento, Habitat, Tipos, Stats],
+            (pokemon(Nome, ID, Cor, Altura, Peso, IsLendario),
+             evolucao(Nome, Evolucao, _),
+             taxa_crescimento(Nome, TaxaCrescimento),
+             habitat(Nome, Habitat),
+             findall(Tipo, tipo(Nome, Tipo), Tipos),
+             findall([BaseStat, StatName], estatistica(Nome, BaseStat, StatName), Stats)),
+            PokemonList),
+    print_pokemons(PokemonList).
+
+print_pokemons([]).
+print_pokemons([[Nome, ID, Cor, Altura, Peso, IsLendario, Evolucao, TaxaCrescimento, Habitat, Tipos, Stats] | Resto]) :-
     write('Nome: '), write(Nome), nl,
     write('ID: '), write(ID), nl,
     write('Cor: '), write(Cor), nl,
@@ -71,9 +82,11 @@ listar_pokemons :-
     write('Lendário: '), write(IsLendario), nl,
     write('Evolução: '), write(Evolucao), nl,
     write('Taxa de Crescimento: '), write(TaxaCrescimento), nl,
-    write('Habitat: '), write(Habitat), nl, nl,
-    fail.
-listar_pokemons.
+    write('Habitat: '), write(Habitat), nl,
+    write('Tipos: '), write(Tipos), nl,
+    write('Stats: '), write(Stats), nl, nl,
+    print_pokemons(Resto).
+
 
 
 
