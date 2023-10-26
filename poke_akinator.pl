@@ -1,3 +1,17 @@
+:- dynamic dois_tipos/1.
+:- dynamic pokemon/1.
+:- dynamic cor/2.
+:- dynamic tipo/2.
+:- dynamic forma/2.
+:- dynamic inicial/1.
+:- dynamic lendario/1.
+:- dynamic evolui_para/2.
+:- dynamic tem_cadeia_evo/1.
+:- dynamic cadeia_tres_estags/1.
+:- dynamic primeiro_estagio/1.
+:- dynamic segundo_estagio/1.
+:- dynamic terceiro_estagio/1.
+
 pokemon(bulbasaur).
 pokemon(ivysaur).
 pokemon(venasaur).
