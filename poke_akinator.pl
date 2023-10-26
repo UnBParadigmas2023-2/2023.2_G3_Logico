@@ -74,3 +74,31 @@ terceiro_estagio(P) :- tem_cadeia_evo(P),evolui_para(X,P),evolui_para(_,X),!.
 segundo_estagio(P) :- tem_cadeia_evo(P),\+ primeiro_estagio(P),\+ terceiro_estagio(P),!.
 
 dois_tipos(P) :- findall(T,tipo(P,T),L),length(L,N),N > 1.
+
+
+remove_pokemon_com(Caracteristica) :- findall(_,remove_pokemon_com1(Caracteristica),_), length(_, 0).
+remove_pokemon_com(Caracteristica, Valor) :- findall(_,remove_pokemon_com1(Caracteristica, Valor),_), length(_, 0).
+
+remove_pokemon_com1(Caracteristica, Valor) :-
+    call(Caracteristica, P, Valor),
+    pokemon(P),
+    retract(pokemon(P)).
+
+remove_pokemon_com1(Caracteristica) :-
+    call(Caracteristica, P),
+    pokemon(P),
+    retract(pokemon(P)).    
+
+
+remove_pokemon_sem(Caracteristica) :- findall(_,remove_pokemon_sem1(Caracteristica),_), length(_, 0).
+remove_pokemon_sem(Caracteristica, Valor) :- findall(_,remove_pokemon_sem1(Caracteristica, Valor),_), length(_, 0).
+
+remove_pokemon_sem1(Caracteristica, Valor) :-
+    pokemon(P),
+    \+ call(Caracteristica, P, Valor),
+    retract(pokemon(P)).
+
+remove_pokemon_sem1(Caracteristica) :-
+    pokemon(P),
+    \+ call(Caracteristica, P),
+    retract(pokemon(P)).
