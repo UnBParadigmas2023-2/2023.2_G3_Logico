@@ -56,3 +56,21 @@ evolui_para(ivysaur, venasaur).
 evolui_para(charmander, charmeleon).
 evolui_para(charmeleon, charizard).
 evolui_para(ponita, rapidash).
+
+
+% QUESTIONS DE EVO
+tem_cadeia_evo(P) :- evolui_para(_,P);evolui_para(P,_).
+
+cadeia_tres_estags(P) :- 
+    tem_cadeia_evo(P),
+    (
+        (evolui_para(P, X), evolui_para(X, _));
+        (evolui_para(_, X), evolui_para(X, P));
+        (evolui_para(_, P), evolui_para(P, _))
+    ),!.
+
+primeiro_estagio(P) :- tem_cadeia_evo(P),\+ evolui_para(_,P).
+terceiro_estagio(P) :- tem_cadeia_evo(P),evolui_para(X,P),evolui_para(_,X),!.
+segundo_estagio(P) :- tem_cadeia_evo(P),\+ primeiro_estagio(P),\+ terceiro_estagio(P),!.
+
+dois_tipos(P) :- findall(T,tipo(P,T),L),length(L,N),N > 1.
