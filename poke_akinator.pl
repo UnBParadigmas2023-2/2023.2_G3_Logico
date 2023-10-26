@@ -121,8 +121,7 @@ remove_pokemon_sem1(Caracteristica) :-
 
 jogo(n) :- write('Obrigado por participar!'), nl, !.
 
-jogo :-	clearBase(positive(Symptom)),
-		write('Bem vindo ao Poke Akinator!!!'), nl,
+jogo :-	write('Bem vindo ao Poke Akinator!!!'), nl,
 		write('Pense em um pokemon da 1a geração e tentaremos adivinha-lo!'), nl,
 		write('Pensou?? Então vamos nessa...'), nl,
 		questionamento,
