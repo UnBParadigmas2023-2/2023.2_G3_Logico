@@ -102,3 +102,43 @@ remove_pokemon_sem1(Caracteristica) :-
     pokemon(P),
     \+ call(Caracteristica, P),
     retract(pokemon(P)).
+
+
+
+jogo(n) :- write('Obrigado por participar!'), nl, !.
+
+jogo :-	clearBase(positive(Symptom)),
+		write('Bem vindo ao Poke Akinator!!!'), nl,
+		write('Pense em um pokemon da 1a geração e tentaremos adivinha-lo!'), nl,
+		write('Pensou?? Então vamos nessa...'), nl,
+		questionamento,
+ 		write('Quer jogar de novo s/n?'), nl, 
+		read(Resposta),
+		jogo(Resposta).
+
+jogo(s) :- jogo.
+
+questionamento :- 
+    caracterista(inicial),
+    adivinha.
+
+caracterista(inicial) :- write('É um pokemon inicial s/n? (contando com as evoluções)'), nl, read(Resposta), tem_caracteristica(Resposta, inicial).
+
+tem_caracteristica('s', Caracterista, Valor) :- remove_pokemon_sem(Caracterista, Valor).
+tem_caracteristica('s', Caracterista) :- remove_pokemon_sem(Caracterista).
+tem_caracteristica('n', Caracterista, Valor) :- remove_pokemon_com(Caracterista, Valor).
+tem_caracteristica('n', Caracterista) :- remove_pokemon_com(Caracterista).
+
+adivinha :- 
+    write('Achamos essas possibilidades:'),
+    nl,
+    findall(P,pokemon(P),L),
+    lista(L).  % This line prints the list
+
+lista([]).
+lista([H|T]) :-
+    write(H), 
+    nl,
+    lista(T).
+
+% adivinha :- write('Poxa, não conseguimos adivinhar...'), nl, !.
