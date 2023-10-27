@@ -24,27 +24,50 @@ get_evolutions(Position, JSONResponse) :-
     request_http(URL, JSON),
     request_http(JSON.evolution_chain.url, JSONResponse).
 
+empty_list([]).
+
 json_object(Position, Object) :-
     get_pokemon(Position, Pokemon),
     get_species(Position, Species),
     get_evolutions(Position, EvolutionChain),
-    Object = Pokemon{
+
+    arg(1, Pokemon.types, Type01),
+    arg(2, Pokemon.types, Type2),
+
+    (\+empty_list(Type2) ->
+        arg(1, Type2, Type02),
+        Object = _{
       name: Pokemon.name,
       id: Pokemon.id,
-      types: Pokemon.types,
+      type01: Type01.type.name,
+      type02: Type02.type.name,
       height: Pokemon.height,
       weight: Pokemon.weight,
-      forms: Pokemon.forms,
       stats: Pokemon.stats,
-      color: Species.color,
+      color: Species.color.name,
       growthRate: Species.growth_rate,
-      habitat: Species.habitat,
-      shape: Species.shape,
+      habitat: Species.habitat.name,
+      shape: Species.shape.name,
       isLegendary: Species.is_legendary,
       isMythical: Species.is_mythical,
-      isBaby: Species.is_baby,
       evolvesTo: EvolutionChain.chain.evolves_to
-    }.
+    }
+    ;
+        Object = _{
+      name: Pokemon.name,
+      id: Pokemon.id,
+      type01: Type01.type.name,
+      height: Pokemon.height,
+      weight: Pokemon.weight,
+      stats: Pokemon.stats,
+      color: Species.color.name,
+      growthRate: Species.growth_rate,
+      habitat: Species.habitat.name,
+      shape: Species.shape.name,
+      isLegendary: Species.is_legendary,
+      isMythical: Species.is_mythical,
+      evolvesTo: EvolutionChain.chain.evolves_to
+    }).
 
 imprime_pokemon(Position) :-
     json_object(Position, Pokemon),
