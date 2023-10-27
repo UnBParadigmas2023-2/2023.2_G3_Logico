@@ -17,6 +17,8 @@ inserir_pokemons([Pokemon | Resto]) :-
     inserir_pokemon(Pokemon),
     inserir_pokemons(Resto).
 
+empty_list([]).
+
 inserir_pokemon(Pokemon) :-
     Nome = Pokemon.name,
     ID = Pokemon.id,
@@ -24,16 +26,28 @@ inserir_pokemon(Pokemon) :-
     Altura = Pokemon.height,
     Peso = Pokemon.weight,
     IsLendario = Pokemon.isLegendary,
+
+    pokemon(Pokemon.name),
+    cor(Pokemon.name, Pokemon.color.name),
+    tipo(Pokemon.name, Pokemon.types),
+    forma(Pokemon.name, Pokemon.shape.name),
+    (Pokemon.id < 10 -> inicial(Pokemon.name); ),
+    (Pokemon.isLegendary -> lendario(Pokemon.name); ),
+    (Pokemon.isMythical -> mitico(Pokemon.name); ),
+    (\+empty_list(Pokemon.evolves_to) -> tem_cadeia_evo(Pokemon.evolvesTo))
+    evolui_para(Pokemon.name, Pokemon.evolvesTo),
+
+    # % Insere os fatos no banco de dados
+    # assertz(pokemon(Nome, ID, Cor, Altura, Peso, IsLendario)),
+    # processar_evolucoes(Nome, Pokemon.evolvesTo),
+    # TaxaCrescimento = Pokemon.growthRate.name,
+    # Habitat = Pokemon.habitat.name,
+    # assertz(taxa_crescimento(Nome, TaxaCrescimento)),
+    # assertz(habitat(Nome, Habitat)),
+    # processar_tipos(Nome, Pokemon.types),
+    # processar_stats(Nome, Pokemon.stats).
+
     
-    % Insere os fatos no banco de dados
-    assertz(pokemon(Nome, ID, Cor, Altura, Peso, IsLendario)),
-    processar_evolucoes(Nome, Pokemon.evolvesTo),
-    TaxaCrescimento = Pokemon.growthRate.name,
-    Habitat = Pokemon.habitat.name,
-    assertz(taxa_crescimento(Nome, TaxaCrescimento)),
-    assertz(habitat(Nome, Habitat)),
-    processar_tipos(Nome, Pokemon.types),
-    processar_stats(Nome, Pokemon.stats).
 
 processar_evolucoes(_, []).
 processar_evolucoes(PokemonNome, [Evolucao | Resto]) :-
