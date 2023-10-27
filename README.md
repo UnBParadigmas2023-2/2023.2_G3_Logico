@@ -58,6 +58,13 @@ TEMPO: +/- 15min
 |Nome do Membro | Contribuição | Significância da Contribuição para o Projeto (Excelente/Boa/Regular/Ruim/Nula) |
 | -- | -- | -- |
 | Artur de Sousa Vieira  |  Ajuda com o funcionamento teórico da aplicação, definição das perguntas e redigir documentação | Boa |
+| Arthur de Melo Garcia             | |   |
+| Carlos Eduardo Miranda Roriz      | |   |
+| Edvan Barreira Gomes Júnior       | |   |
+| João Victor Teixeira Batista      | |   |
+| Lucas Gabriel Sousa Camargo Paiva | |   |
+| Luíza Esteves dos Santos          |Ajuda no desenvolvimento do parser, documentação e resolução de problemas | Boa  |
+| Philipe Rosa Serafim              | |   |
 
 ## Outros 
 <!-- Quaisquer outras informações sobre o projeto podem ser descritas aqui. Não esqueça, entretanto, de informar sobre:
