@@ -95,5 +95,5 @@ Já em fragilidades, o grupo teve maior dificuldade na distribuição das ativid
 - Outras gerações: Além disso sempre há a possíbilidade de expanção da base de dados dos pokemons, podendo usar várias outras gerações separada ou conjuntamente.
 
 ## Fontes
-Referencie, adequadamente, as referências utilizadas.
-Indique ainda sobre fontes de leitura complementares.
+- Api de base para o projeto: https://pokeapi.co/
+- Documentação do Prolog: https://www.swi-prolog.org/pldoc/doc_for?object=manual
