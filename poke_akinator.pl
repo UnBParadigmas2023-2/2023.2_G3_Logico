@@ -5,6 +5,7 @@
 :- dynamic forma/2.
 :- dynamic inicial/1.
 :- dynamic lendario/1.
+:- dynamic mitico/1.
 :- dynamic evolui_para/2.
 :- dynamic tem_cadeia_evo/1.
 :- dynamic cadeia_tres_estags/1.
