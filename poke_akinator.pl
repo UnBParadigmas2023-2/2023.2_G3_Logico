@@ -85,8 +85,8 @@ cadeia_tres_estags(P) :-
     ).
 
 primeiro_estagio(P) :- tem_cadeia_evo(P),\+ evolui_para(_,P).
-terceiro_estagio(P) :- tem_cadeia_evo(P),evolui_para(X,P),evolui_para(_,X),!.
-segundo_estagio(P) :- tem_cadeia_evo(P),\+ primeiro_estagio(P),\+ terceiro_estagio(P),!.
+terceiro_estagio(P) :- tem_cadeia_evo(P),evolui_para(X,P),evolui_para(_,X).
+segundo_estagio(P) :- tem_cadeia_evo(P),\+ primeiro_estagio(P),\+ terceiro_estagio(P).
 
 dois_tipos(P) :- tipo(P,T1),tipo(P,T2),T1\==T2.
 
@@ -213,73 +213,100 @@ questionamento :-
     caracterista(dois_tipos),
     adivinha.
 
-caracterista(inicial) :- write('É um pokemon inicial s/n? (contando com as evoluções)'),
-                        nl,
-                        read(Resposta),
-                        tem_caracteristica(Resposta, inicial).
+caracterista(inicial) :- 
+    (multiplas_opcoes,
+    write('É um pokemon inicial s/n? (contando com as evoluções)'),
+    nl,
+    read(Resposta),
+    tem_caracteristica(Resposta, inicial));
+    true.
 
-caracterista(tem_cadeia_evo) :- write('O pokemon pertence a uma cadeia evolutiva s/n?'),
-                                nl,
-                                read(Resposta),
-                                tem_caracteristica(Resposta, tem_cadeia_evo),
-                                (Resposta = 's' ->
-                                    caracterista(cadeia_tres_estags)
-                                ;
-                                    true
-                                ).
+caracterista(tem_cadeia_evo) :- 
+    (multiplas_opcoes,
+    write('O pokemon pertence a uma cadeia evolutiva s/n?'),
+    nl,
+    read(Resposta),
+    tem_caracteristica(Resposta, tem_cadeia_evo),
+    (Resposta = 's' ->
+        caracterista(cadeia_tres_estags)
+    ;
+        true
+    ));
+    true.
 
-caracterista(cadeia_tres_estags) :- write('Essa cadeia de evolução possui três estágios de evolução s/n?'),
-                                nl,
-                                read(Resposta),
-                                tem_caracteristica(Resposta, cadeia_tres_estags),
-                                (Resposta = 's' ->
-                                    caracterista(terceiro_estagio)
-                                ;
-                                    caracterista(primeiro_estagio)
-                                ).
+caracterista(cadeia_tres_estags) :- 
+    (multiplas_opcoes,
+    write('Essa cadeia de evolução possui três estágios de evolução s/n?'),
+    nl,
+    read(Resposta),
+    tem_caracteristica(Resposta, cadeia_tres_estags),
+    (Resposta = 's' ->
+        caracterista(terceiro_estagio)
+    ;
+        caracterista(primeiro_estagio)
+    ));
+    true.
 
-caracterista(terceiro_estagio) :- write('Esse pokemon é o último estágio da cadeia s/n?'),
-                                nl,
-                                read(Resposta),
-                                tem_caracteristica(Resposta, terceiro_estagio),
-                                (Resposta = 'n' ->
-                                    caracterista(primeiro_estagio)
-                                ;
-                                    true
-                                ).
+caracterista(terceiro_estagio) :- 
+    (multiplas_opcoes,
+    write('Esse pokemon é o último estágio da cadeia s/n?'),
+    nl,
+    read(Resposta),
+    tem_caracteristica(Resposta, terceiro_estagio),
+    (Resposta = 'n' ->
+        caracterista(primeiro_estagio)
+    ;
+        true
+    ));
+    true.
 
-caracterista(primeiro_estagio) :- write('Esse pokemon é o primeiro estágio da cadeia s/n?'),
-                                nl,
-                                read(Resposta),
-                                tem_caracteristica(Resposta, primeiro_estagio).
+caracterista(primeiro_estagio) :- 
+    (multiplas_opcoes,
+    write('Esse pokemon é o primeiro estágio da cadeia s/n?'),
+    nl,
+    read(Resposta),
+    tem_caracteristica(Resposta, primeiro_estagio));
+    true.
 
-caracterista(dois_tipos) :- write('Esse pokemon possui 2 tipos s/n?'),
-                                nl,
-                                read(Resposta),
-                                tem_caracteristica(Resposta, dois_tipos),
-                                (Resposta = 'n' ->
-                                    caracterista(forma)
-                                ;
-                                    caracterista(tipo)
-                                ).
+caracterista(dois_tipos) :- 
+    (multiplas_opcoes,
+    write('Esse pokemon possui 2 tipos s/n?'),
+    nl,
+    read(Resposta),
+    tem_caracteristica(Resposta, dois_tipos),
+    (Resposta = 'n' ->
+        caracterista(tipo)
+    ;
+        caracterista(tipo)
+    ));
+    true.
 
-caracterista(tipo) :- valor_mais_comun(tipo, V),
-                    format('O pokemon é do tipo ~w??', [V]),
-                    nl,
-                    read(Resposta),
-                    tem_caracteristica(Resposta, tipo, V).
+caracterista(tipo) :- 
+    (multiplas_opcoes,
+    valor_mais_comun(tipo, V),
+    format('O pokemon é do tipo ~w??', [V]),
+    nl,
+    read(Resposta),
+    tem_caracteristica(Resposta, tipo, V));
+    true.
 
-caracterista(cor) :- valor_mais_comun(cor, V),
-                    format('O pokemon é da cor ~w??', [V]),
-                    nl,
-                    read(Resposta),
-                    tem_caracteristica(Resposta, cor, V).
+caracterista(cor) :- 
+    (multiplas_opcoes,
+    valor_mais_comun(cor, V),
+    format('O pokemon é da cor ~w??', [V]),
+    nl,
+    read(Resposta),
+    tem_caracteristica(Resposta, cor, V));
+    true.
 
-caracteristica(forma) :- valor_mais_comun(forma, V),
-                    format('O pokemon é ~w??', [V]),
-                    nl,
-                    read(Resposta),
-                    tem_caracteristica(Resposta, forma, V).
+caracteristica(forma) :- 
+    (multiplas_opcoes,
+    valor_mais_comun(forma, V),
+    format('O pokemon é ~w??', [V]),
+    nl,
+    read(Resposta),
+    tem_caracteristica(Resposta, forma, V));
+    true.
 
 
 tem_caracteristica('s', Caracterista, Valor) :- remove_pokemon_sem(Caracterista, Valor).
