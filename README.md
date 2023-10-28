@@ -61,7 +61,7 @@ TEMPO: +/- 15min
 | Arthur de Melo Garcia             | |   |
 | Carlos Eduardo Miranda Roriz      | |   |
 | Edvan Barreira Gomes Júnior       | |   |
-| João Victor Teixeira Batista      | |   |
+| João Victor Teixeira Batista      | Desenvolvimento das principais funcionalidades da lógica de dedução | Excelente |
 | Lucas Gabriel Sousa Camargo Paiva | |   |
 | Luíza Esteves dos Santos          |Ajuda no desenvolvimento do parser, documentação e resolução de problemas | Boa  |
 | Philipe Rosa Serafim              | |   |
