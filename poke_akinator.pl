@@ -12,71 +12,29 @@
 :- dynamic primeiro_estagio/1.
 :- dynamic segundo_estagio/1.
 :- dynamic terceiro_estagio/1.
+:- consult('parser.pl').
 
-pokemon(bulbasaur).
-pokemon(ivysaur).
-pokemon(venasaur).
-pokemon(charmander).
-pokemon(charmeleon).
-pokemon(charizard).
-pokemon(ponita).
-pokemon(rapidash).
-pokemon(mewtwo).
-
-cor(bulbasaur, green).
-cor(ivysaur, green).
-cor(venasaur, green).
-cor(charmander, orange).
-cor(charmeleon, orange).
-cor(charizard, orange).
-cor(ponita, white).
-cor(rapidash, white).
-cor(mewtwo, white).
-
-tipo(bulbasaur, grass).
-tipo(ivysaur, grass).
-tipo(venasaur, grass).
-tipo(bulbasaur, poison).
-tipo(ivysaur, poison).
-tipo(venasaur, poison).
-tipo(charmander, fire).
-tipo(charmeleon, fire).
-tipo(charizard, fire).
-tipo(charizard, flying).
-tipo(ponita, fire).
-tipo(rapidash, fire).
-tipo(mewtwo, psychic).
-
-forma(bulbasaur, quadruped).
-forma(ivysaur, quadruped).
-forma(venasaur, quadruped).
-forma(charmander, bipede).
-forma(charmeleon, bipede).
-forma(charizard, bipede).
-forma(ponita, quadruped).
-forma(rapidash, quadruped).
-forma(mewtwo, bipede).
-
-inicial(bulbasaur).
-inicial(ivysaur).
-inicial(venasaur).
-inicial(charmander).
-inicial(charmeleon).
-inicial(charizard).
-
-lendario(mewtwo).
-
-evolui_para(bulbasaur, ivysaur).
-evolui_para(ivysaur, venasaur).
-evolui_para(charmander, charmeleon).
-evolui_para(charmeleon, charizard).
-evolui_para(ponita, rapidash).
-
+pokenator([]).
+pokenator([[ID, Nome, Cor, IsLendario, IsMitico, Habitat, Forma, HasEvolveChain, Evo1, Evo2, Type01, Type02] | Resto]) :-
+    write(Nome),pokemon(Nome),
+    write(Nome),cor(Nome, Cor),
+    write(Type01),tipo(Nome, Type01),
+    write(Type02),tipo(Nome, Type02),
+    write(Forma),forma(Nome, Forma),
+    write(IsLendario),(ID < 10 -> inicial(Nome)),
+    write(HasEvolveChain),(IsLendario == 1 -> lendario(Nome)),
+    (HasEvolveChain ->
+        evolui_para(Nome, Evo1),
+        (string_length(Evo2, 0) ->
+            evolui_para(Nome, Evo2)
+        )
+    ),
+    pokenator(Resto).
 
 % QUESTIONS DE EVO
 tem_cadeia_evo(P) :- evolui_para(_,P);evolui_para(P,_).
 
-cadeia_tres_estags(P) :- 
+cadeia_tres_estags(P) :-
     tem_cadeia_evo(P),
     (
         (evolui_para(P, X), evolui_para(X, _));
@@ -85,8 +43,8 @@ cadeia_tres_estags(P) :-
     ).
 
 primeiro_estagio(P) :- tem_cadeia_evo(P),\+ evolui_para(_,P).
-terceiro_estagio(P) :- tem_cadeia_evo(P),evolui_para(X,P),evolui_para(_,X),!.
-segundo_estagio(P) :- tem_cadeia_evo(P),\+ primeiro_estagio(P),\+ terceiro_estagio(P),!.
+terceiro_estagio(P) :- tem_cadeia_evo(P),evolui_para(X,P),evolui_para(_,X).
+segundo_estagio(P) :- tem_cadeia_evo(P),\+ primeiro_estagio(P),\+ terceiro_estagio(P).
 
 dois_tipos(P) :- tipo(P,T1),tipo(P,T2),T1\==T2.
 
@@ -104,16 +62,13 @@ conta_instancia_valor(cor, Valor, Count) :-
     findall(P, (pokemon(P), cor(P, Valor)), Cores),
     length(Cores, Count).
 
-valor_mais_comun(cor, Valor) :-
-    findall(Count-Valor, (cor(_, Valor), conta_instancia_valor(cor, Valor, Count)), Counts),
-    keysort(Counts, SortedCounts),
-    reverse(SortedCounts, [MostCommonCount-Valor | _]),
-    conta_instancia_valor(cor, Valor, MostCommonCount).
-
-
 conta_instancia_valor(tipo, Valor, Count) :-
     findall(P, (pokemon(P), tipo(P, Valor)), Tipos),
     length(Tipos, Count).
+
+conta_instancia_valor(forma, Valor, Count) :-
+    findall(P, (pokemon(P), forma(P, Valor)), Formas),
+    length(Formas, Count).
 
 valor_mais_comun(tipo, Valor) :-
     findall(Count-Valor, (tipo(_, Valor), conta_instancia_valor(tipo, Valor, Count)), Counts),
@@ -121,19 +76,21 @@ valor_mais_comun(tipo, Valor) :-
     reverse(SortedCounts, [MostCommonCount-Valor | _]),
     conta_instancia_valor(tipo, Valor, MostCommonCount).
 
-conta_instancia_valor(forma, Valor, Count) :-
-    findall(P, (pokemon(P), forma(P, Valor)), Formas),
-    length(Formas, Count).
-
 valor_mais_comun(forma, Valor) :-
     findall(Count-Valor, (forma(_, Valor), conta_instancia_valor(forma, Valor, Count)), Counts),
     keysort(Counts, SortedCounts),
     reverse(SortedCounts, [MostCommonCount-Valor | _]),
     conta_instancia_valor(forma, Valor, MostCommonCount).
 
+valor_mais_comun(cor, Valor) :-
+    findall(Count-Valor, (cor(_, Valor), conta_instancia_valor(cor, Valor, Count)), Counts),
+    keysort(Counts, SortedCounts),
+    reverse(SortedCounts, [MostCommonCount-Valor | _]),
+    conta_instancia_valor(cor, Valor, MostCommonCount).
+
 
 % REMOÇOES
-limpa_base :- 
+limpa_base :-
     retract(pokemon(_)),
     retract(inicial(_)),
     retract(lendario(_)),
@@ -154,7 +111,7 @@ remove_pokemon_com1(Caracteristica, Valor) :-
 remove_pokemon_com1(Caracteristica) :-
     call(Caracteristica, P),
     pokemon(P),
-    retract(pokemon(P)).    
+    retract(pokemon(P)).
 
 
 remove_pokemon_sem(Caracteristica) :- findall(_,remove_pokemon_sem1(Caracteristica),_), length(_, 0).
@@ -172,54 +129,35 @@ remove_pokemon_sem1(Caracteristica) :-
 
 
 % JOGO
-jogo(n) :- write('Obrigado por participar!'), nl, !.
-
-jogo :-	write('Bem vindo ao Poke Akinator!!!'), nl,
+jogo :-	main,
+        listar_pokemons(PokemonList),
+        pokenator(PokemonList),
+        write('Bem vindo ao Poke Akinator!!!'), nl,
 		write('Pense em um pokemon da 1a geração e tentaremos adivinha-lo!'), nl,
 		write('Pensou?? Então vamos nessa...'), nl,
 		questionamento,
- 		write('Quer jogar de novo s/n?'), nl, 
+ 		write('Quer jogar de novo s/n?'), nl,
 		read(Resposta),
 		jogo(Resposta).
 
 jogo(s) :- jogo.
 
-% - evo
-    % - 3 estags
-        % - 2 tipos
-            % - estag
-                % - tipo
-                    % - outros
-        % - 1 tipo
-            % - estag
-                % - forma
-                    % - inicial/tipo
-    % - 2 estags
-        % - 1 tipo
-            % - estag
-                % - forma
-                    % - outros
-        % - 2 tipos
-% - dont evo
-    % - 1 tipo
-        % - tipo
-            % - outros
-    % - 2 tipos
-        % - tipo
-            % - lendario
+jogo(n) :- write('Obrigado por participar!'), nl, !.
 
-questionamento :- 
+questionamento :-
     caracterista(tem_cadeia_evo),
     caracterista(dois_tipos),
     adivinha.
 
 caracterista(inicial) :- write('É um pokemon inicial s/n? (contando com as evoluções)'),
                         nl,
+                        adivinha,
                         read(Resposta),
                         tem_caracteristica(Resposta, inicial).
 
 caracterista(tem_cadeia_evo) :- write('O pokemon pertence a uma cadeia evolutiva s/n?'),
                                 nl,
+                                adivinha,
                                 read(Resposta),
                                 tem_caracteristica(Resposta, tem_cadeia_evo),
                                 (Resposta = 's' ->
@@ -230,6 +168,7 @@ caracterista(tem_cadeia_evo) :- write('O pokemon pertence a uma cadeia evolutiva
 
 caracterista(cadeia_tres_estags) :- write('Essa cadeia de evolução possui três estágios de evolução s/n?'),
                                 nl,
+                                adivinha,
                                 read(Resposta),
                                 tem_caracteristica(Resposta, cadeia_tres_estags),
                                 (Resposta = 's' ->
@@ -240,6 +179,7 @@ caracterista(cadeia_tres_estags) :- write('Essa cadeia de evolução possui trê
 
 caracterista(terceiro_estagio) :- write('Esse pokemon é o último estágio da cadeia s/n?'),
                                 nl,
+                                adivinha,
                                 read(Resposta),
                                 tem_caracteristica(Resposta, terceiro_estagio),
                                 (Resposta = 'n' ->
@@ -250,11 +190,13 @@ caracterista(terceiro_estagio) :- write('Esse pokemon é o último estágio da c
 
 caracterista(primeiro_estagio) :- write('Esse pokemon é o primeiro estágio da cadeia s/n?'),
                                 nl,
+                                adivinha,
                                 read(Resposta),
                                 tem_caracteristica(Resposta, primeiro_estagio).
 
 caracterista(dois_tipos) :- write('Esse pokemon possui 2 tipos s/n?'),
                                 nl,
+                                adivinha,
                                 read(Resposta),
                                 tem_caracteristica(Resposta, dois_tipos),
                                 (Resposta = 'n' ->
@@ -266,28 +208,33 @@ caracterista(dois_tipos) :- write('Esse pokemon possui 2 tipos s/n?'),
 caracterista(tipo) :- valor_mais_comun(tipo, V),
                     format('O pokemon é do tipo ~w??', [V]),
                     nl,
+                    adivinha,
                     read(Resposta),
-                    tem_caracteristica(Resposta, tipo, V).
+                    tem_caracteristica(Resposta, tipo, V),
+                    caracterista(cor).
 
 caracterista(cor) :- valor_mais_comun(cor, V),
                     format('O pokemon é da cor ~w??', [V]),
                     nl,
+                    adivinha,
                     read(Resposta),
-                    tem_caracteristica(Resposta, cor, V).
+                    tem_caracteristica(Resposta, cor, V),
+                    caracterista(forma).
 
 caracteristica(forma) :- valor_mais_comun(forma, V),
                     format('O pokemon é ~w??', [V]),
                     nl,
+                    adivinha,
                     read(Resposta),
                     tem_caracteristica(Resposta, forma, V).
 
 
-tem_caracteristica('s', Caracterista, Valor) :- remove_pokemon_sem(Caracterista, Valor).
-tem_caracteristica('s', Caracterista) :- remove_pokemon_sem(Caracterista).
 tem_caracteristica('n', Caracterista, Valor) :- remove_pokemon_com(Caracterista, Valor).
+tem_caracteristica('s', Caracterista, Valor) :- remove_pokemon_sem(Caracterista, Valor).
 tem_caracteristica('n', Caracterista) :- remove_pokemon_com(Caracterista).
+tem_caracteristica('s', Caracterista) :- remove_pokemon_sem(Caracterista).
 
-adivinha :- 
+adivinha :-
     write('Achamos essas possibilidades:'),
     nl,
     findall(P,pokemon(P),L),
@@ -295,7 +242,7 @@ adivinha :-
 
 lista([]).
 lista([H|T]) :-
-    write(H), 
+    write(H),
     nl,
     lista(T).
 
