@@ -60,7 +60,7 @@ Nessa seção, deve-se revelar de forma clara sobre o funcionamento do software.
 |Nome do Membro | Contribuição | Significância da Contribuição para o Projeto (Excelente/Boa/Regular/Ruim/Nula) |
 | -- | -- | -- |
 | Artur de Sousa Vieira  |  Ajuda com o funcionamento teórico da aplicação, definição das perguntas e redigir documentação | Boa |
-| Arthur de Melo Garcia             | | |
+| Arthur de Melo Garcia             | Ajuda com definições de escopo e documentação | regular |
 | Carlos Eduardo Miranda Roriz      | | |
 | Edvan Barreira Gomes Júnior       | Ajuda no desenvolvimento do parser, documentação, resolução de problemas e desenvolvimento da lógica de dedução | Excelente |
 | João Victor Teixeira Batista      | Desenvolvimento das principais funcionalidades da lógica de dedução | Excelente |
