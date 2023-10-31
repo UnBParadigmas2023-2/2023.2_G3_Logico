@@ -52,7 +52,7 @@ Nessa seção, deve-se revelar de forma clara sobre o funcionamento do software.
 ## Vídeo
 ## Vídeo
 
-- GitHub: [ACESSO](apresentação/videoApresentacao.mp4)
+- GitHub: [ACESSO](apresentação/videoApresentação.mp4)
 
 
 ## Participações
