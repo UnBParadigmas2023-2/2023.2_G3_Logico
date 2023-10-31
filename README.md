@@ -50,14 +50,10 @@ Procure ilustrar em passos, com apoio de telas do software, seja com base na int
 Nessa seção, deve-se revelar de forma clara sobre o funcionamento do software. -->
 
 ## Vídeo
-Adicione 1 ou mais vídeos com a execução do projeto.
-Procure: 
-(i) Introduzir o projeto;
-(ii) Mostrar passo a passo o código, explicando-o, e deixando claro o que é de terceiros, e o que é contribuição real da equipe;
-(iii) Apresentar particularidades do Paradigma, da Linguagem, e das Tecnologias, e
-(iV) Apresentar lições aprendidas, contribuições, pendências, e ideias para trabalhos futuros.
-OBS: TODOS DEVEM PARTICIPAR, CONFERINDO PONTOS DE VISTA.
-TEMPO: +/- 15min
+## Vídeo
+
+- GitHub: [ACESSO](apresentação/videoApresentacao.mp4)
+
 
 ## Participações
 <!-- Apresente, brevemente, como cada membro do grupo contribuiu para o projeto. -->
